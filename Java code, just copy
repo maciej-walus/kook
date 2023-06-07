@@ -1,0 +1,128 @@
+// Readind directories
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+        String directoryPath = "recepies/"; // Specify the path to the directory you want to read
+        List<String> dirNames = new ArrayList<>();
+        
+        File directory = new File(directoryPath);
+        File[] directories = directory.listFiles(File::isDirectory);
+
+        if (directories != null) {
+            for (File dir : directories) {
+                dirNames.add(dir.getName());
+            }
+        }
+
+
+        for (String str : dirNames) {
+            System.out.println(str);
+        }
+        
+        
+      
+// txt interpreter
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
+
+
+public class tak {
+    
+    public static String replacePattern(String input, double doubleVariable) {
+        Pattern pattern = Pattern.compile("\\$(\\d+)(\\S+)?\\$");
+        Matcher matcher = pattern.matcher(input);
+        StringBuffer result = new StringBuffer();
+    
+        while (matcher.find()) {
+            Double number = Double.parseDouble(matcher.group(1));
+            String replacement = number * doubleVariable +" " +matcher.group(2);
+            matcher.appendReplacement(result, replacement);
+        }
+        matcher.appendTail(result);
+    
+        return result.toString();
+    }
+
+
+    public static void main(String[] args) {
+        String filePath = "/home/galaxypotato/MojeProgramy/JAVA/java test/test.txt";
+        String title = "";
+        List<String> ingredients = new ArrayList<>();
+        String text = "";
+        double portion_number = 0;
+        
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            boolean isTitle = false;
+            boolean isIngredients = false;
+            boolean isText = false;
+            boolean isPortion = false;
+
+            while ((line = br.readLine()) != null) {
+                if (line.contains("<title>")) {
+                    isTitle = true;
+                    continue;
+                }
+                if (line.contains("</title>")) {
+                    isTitle = false;
+                    continue;
+                }
+                if (line.contains("<ingredients>")) {
+                    isIngredients = true;
+                    continue;
+                }
+                if (line.contains("</ingredients>")) {
+                    isIngredients = false;
+                    continue;
+                }
+                if (line.contains("<portion>")){
+                    isPortion = true;
+                    continue;
+                }
+                if (line.contains("</portion>")){
+                    isPortion = false;
+                    continue;
+                }
+                if (line.contains("<text>")) {
+                    isText = true;
+                    continue;
+                }
+                if (line.contains("</text>")) {
+                    isText = false;
+                    continue;
+                }
+
+                if (isTitle) {
+                    title += line;
+                } else if (isIngredients) {
+                    ingredients.add(replacePattern(line, portion_number));
+                } else if (isText) {
+
+                    text += replacePattern(line, portion_number);
+                }
+                    else if (isPortion){
+                    portion_number = Double.parseDouble(line);
+                }
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Title: " + title);
+        System.out.println("Ingredients: " + ingredients);
+        System.out.println("Text: " + text);
+        System.out.println("porcja: " + portion_number);
+    }
+}
