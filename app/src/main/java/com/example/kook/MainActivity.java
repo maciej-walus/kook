@@ -13,8 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-    public void reakcja(View v) {
-        Intent i = new Intent(this, MainActivity2.class);
-        startActivity(i);
+    public void reload_recipies(View v){
+
     }
 }
