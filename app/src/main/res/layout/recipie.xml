@@ -51,14 +51,15 @@
                 android:textSize="24sp" />
 
             <EditText
-                android:id="@+id/editTextNumber"
+                android:id="@+id/portions"
                 android:layout_width="352dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="28dp"
                 android:ems="10"
                 android:hint="Number of portions"
-                android:inputType="number" />
+                android:inputType="number"
+                android:numeric="integer|decimal" />
 
             <Button
                 android:id="@+id/recalculate"

@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity2 extends AppCompatActivity {
+    static double portion_number = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +36,23 @@ public class MainActivity2 extends AppCompatActivity {
         TextView poleTekstowe = (TextView) findViewById(R.id.editTitle);
         poleTekstowe.setText(parametr);
 
+
         update_recepie(parametr);
+
+        Button button = findViewById(R.id.recalculate);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView newamount = (TextView) findViewById(R.id.portions);
+                portion_number = Integer.parseInt(newamount.getText().toString());
+                update_recepie(parametr);
+            }
+        });
 
 
     }
+
     public static String replacePattern(String input, double doubleVariable) {
         Pattern pattern = Pattern.compile("\\$(\\d+)(\\S+)?\\$");
         Matcher matcher = pattern.matcher(input);
@@ -43,7 +60,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         while (matcher.find()) {
             Double number = Double.parseDouble(matcher.group(1));
-            String replacement = number * doubleVariable +" " +matcher.group(2);
+            String replacement = number * doubleVariable + " " + matcher.group(2);
             matcher.appendReplacement(result, replacement);
         }
         matcher.appendTail(result);
@@ -51,13 +68,12 @@ public class MainActivity2 extends AppCompatActivity {
         return result.toString();
     }
 
-    public void update_recepie(String dir){
+    public void update_recepie(String dir) {
         Context context = getApplicationContext();
-        File filePath = new File(context.getFilesDir(), "recepies/" + dir +"/recepie.txt");
+        File filePath = new File(context.getFilesDir(), "recepies/" + dir + "/recepie.txt");
 
         List<String> ingredients = new ArrayList<>();
         String text = "";
-        double portion_number = 0;
         int TimerMinutes = 0;
         int TimerSeconds = 0;
 
@@ -71,7 +87,7 @@ public class MainActivity2 extends AppCompatActivity {
             boolean isPortion = false;
             boolean isTimer = false;
             LinearLayout LinearLayoutForTimers = findViewById(R.id.LinearLayoutForTimers);
-            while ( (line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
 
                 if (line.contains("<ingredients>")) {
                     isIngredients = true;
@@ -91,11 +107,11 @@ public class MainActivity2 extends AppCompatActivity {
                     continue;
                 }
 
-                if (line.contains("<portion>")){
+                if (line.contains("<portion>")) {
                     isPortion = true;
                     continue;
                 }
-                if (line.contains("</portion>")){
+                if (line.contains("</portion>")) {
                     isPortion = false;
                     continue;
                 }
@@ -114,56 +130,49 @@ public class MainActivity2 extends AppCompatActivity {
                 } else if (isText) {
 
                     text += replacePattern(line, portion_number);
-                }
-                else if (isPortion){
-                    portion_number = Double.parseDouble(line);
-                }
-                else if (isTimer){
+                } else if (isPortion) {
+                    if (portion_number == -1) {
+                        portion_number = Double.parseDouble(line);
+                    }
+                } else if (isTimer) {
 
-                        int minutesIndex = line.indexOf('m');
-                        int secondsIndex = line.indexOf('s');
-                        int minutes = 0;
-                        int seconds = 0;
-                        int totalTime = 0;
-                        if (minutesIndex == -1){
-                            seconds = Integer.parseInt(line.substring(0, secondsIndex));
-                            totalTime = seconds;
-                        }
-                        else{
-                            minutes = Integer.parseInt(line.substring(0, minutesIndex));
-                            seconds = Integer.parseInt(line.substring(minutesIndex + 1, secondsIndex));
-                            totalTime = (minutes * 60) + seconds;
-                        }
+                    int minutesIndex = line.indexOf('m');
+                    int secondsIndex = line.indexOf('s');
+                    int minutes = 0;
+                    int seconds = 0;
+                    int totalTime = 0;
+                    if (minutesIndex == -1) {
+                        seconds = Integer.parseInt(line.substring(0, secondsIndex));
+                        totalTime = seconds;
+                    } else {
+                        minutes = Integer.parseInt(line.substring(0, minutesIndex));
+                        seconds = Integer.parseInt(line.substring(minutesIndex + 1, secondsIndex));
+                        totalTime = (minutes * 60) + seconds;
+                    }
 
-                        Button yourButton = new Button(this);
-                        if (minutesIndex !=-1){
-                            yourButton.setText(minutes + " minutes & " + seconds +" seconds");
-                        }
-                        else {
-                            yourButton.setText(seconds +" seconds");
-                        }
+                    Button yourButton = new Button(this);
+                    if (minutesIndex != -1) {
+                        yourButton.setText(minutes + " minutes & " + seconds + " seconds");
+                    } else {
+                        yourButton.setText(seconds + " seconds");
+                    }
 
                     int finalTotalTime = totalTime;
                     yourButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
-                                        .putExtra(AlarmClock.EXTRA_LENGTH, finalTotalTime)
-                                        .putExtra(AlarmClock.EXTRA_MESSAGE, "Timer for Kook <3")
-                                        .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-                                startActivity(intent);
-                            }
-                        });
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
+                                    .putExtra(AlarmClock.EXTRA_LENGTH, finalTotalTime)
+                                    .putExtra(AlarmClock.EXTRA_MESSAGE, "Timer for Kook <3")
+                                    .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+                            startActivity(intent);
+                        }
+                    });
 
-                        LinearLayoutForTimers.addView(yourButton);
-
-
+                    LinearLayoutForTimers.addView(yourButton);
 
 
                 }
-
-
-
 
 
             }
@@ -173,9 +182,8 @@ public class MainActivity2 extends AppCompatActivity {
 
         String ingrid = "";
 
-        for(int i =0 ; i< ingredients.size() ; i++)
-        {
-            ingrid += ingredients.get(i)+"\n";
+        for (int i = 0; i < ingredients.size(); i++) {
+            ingrid += ingredients.get(i) + "\n";
         }
 
         TextView modyfiko = (TextView) findViewById(R.id.editIngredients);
@@ -185,5 +193,4 @@ public class MainActivity2 extends AppCompatActivity {
         modyfiko.setText(text);
 
     }
-
 }
