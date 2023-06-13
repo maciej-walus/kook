@@ -34,8 +34,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="28dp"
                 android:fontFamily="sans-serif-light"
-                android:hint="Ingredients"
-                android:textAlignment="textStart"
+                android:hint="Ingredients ex. $1paruwa$ $1bula$"
+                android:textAlignment="center"
                 android:textSize="24sp" />
 
             <EditText
@@ -45,9 +45,10 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="28dp"
                 android:fontFamily="sans-serif-light"
-                android:hint="Recipe"
+                android:hint="Recipe e.g. cook $1paruwa$"
                 android:lineSpacingExtra="24sp"
-                android:textAlignment="textStart"
+                android:onClick="save"
+                android:textAlignment="center"
                 android:textSize="24sp" />
 
             <EditText
@@ -56,13 +57,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
-                android:hint="Required Timers (e.g. 3s, 5m5s)"
+                android:hint="Required Timers (e.g. 0m3s, 5m5s)"
                 android:textAlignment="viewStart"
                 android:textSize="24sp" />
 
             <EditText
                 android:id="@+id/editTextNumber3"
-                android:layout_width="346dp"
+                android:layout_width="379dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
@@ -89,6 +90,7 @@
                 android:id="@+id/SaveRecipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="save"
                 android:text="Save Recipe" />
 
         </LinearLayout>

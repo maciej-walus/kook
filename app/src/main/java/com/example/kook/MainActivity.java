@@ -29,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
         File[] directories = directory.listFiles(File::isDirectory);
 
 
+
+
+
+
         if (directories != null) {
             for (File dir : directories) {
 
@@ -79,7 +83,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-    }
 
+
+
+    }
+    public void createNew(View v) {
+        Intent intent = new Intent(MainActivity.this, MainActivity3.class);
+        startActivity(intent);
+    }
 
 }
