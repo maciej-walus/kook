@@ -16,74 +16,81 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TextView
+            <EditText
                 android:id="@+id/editTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Title"
+                android:hint="Title"
                 android:textAlignment="center"
                 android:textSize="48sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/editIngredients"
                 android:layout_width="356dp"
                 android:layout_height="148dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="28dp"
                 android:fontFamily="sans-serif-light"
-                android:text="Ingredients"
+                android:hint="Ingredients"
                 android:textAlignment="center"
                 android:textSize="24sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/editRecipie"
                 android:layout_width="352dp"
                 android:layout_height="308dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="28dp"
                 android:fontFamily="sans-serif-light"
+                android:hint="Recipe"
                 android:lineSpacingExtra="24sp"
-                android:text="Recipie"
                 android:textAlignment="center"
                 android:textSize="24sp" />
 
             <EditText
-                android:id="@+id/editTextNumber"
-                android:layout_width="352dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="28dp"
-                android:ems="10"
-                android:hint="Number of portions"
-                android:inputType="number" />
-
-            <Button
-                android:id="@+id/recalculate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Recalculate" />
-
-            <TextView
                 android:id="@+id/editRequiredTimers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
-                android:text="Required Timers"
+                android:hint="Required Timers (e.g. 0m3s, 5m5s)"
                 android:textAlignment="viewStart"
                 android:textSize="24sp" />
 
-            <LinearLayout
-                android:id="@+id/LinearLayoutForTimers"
-                android:layout_width="410dp"
-                android:layout_height="101dp"
+            <EditText
+                android:id="@+id/editTextNumber3"
+                android:layout_width="379dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical" />
+                android:layout_marginTop="24dp"
+                android:ems="10"
+                android:hint="Number of portions"
+                android:inputType="number"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:id="@+id/SelectedImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+            <Button
+                android:id="@+id/SelectPicture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Select Picture" />
+
+            <Button
+                android:id="@+id/SaveRecipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Save Recipe" />
+
         </LinearLayout>
     </ScrollView>
 

@@ -1,14 +1,11 @@
 package com.example.kook;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -32,7 +29,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         Bundle b = getIntent().getExtras();
         String parametr = b.getString("Title");
-        TextView poleTekstowe = (TextView) findViewById(R.id.Title);
+        TextView poleTekstowe = (TextView) findViewById(R.id.editTitle);
         poleTekstowe.setText(parametr);
 
         update_recepie(parametr);
@@ -123,21 +120,35 @@ public class MainActivity2 extends AppCompatActivity {
                 }
                 else if (isTimer){
 
-
-
                         int minutesIndex = line.indexOf('m');
                         int secondsIndex = line.indexOf('s');
-                        int minutes = Integer.parseInt(line.substring(0, minutesIndex));
-                        int seconds = Integer.parseInt(line.substring(minutesIndex + 1, secondsIndex));
-                        int totalTime = (minutes * 60) + seconds;
+                        int minutes = 0;
+                        int seconds = 0;
+                        int totalTime = 0;
+                        if (minutesIndex == -1){
+                            seconds = Integer.parseInt(line.substring(0, secondsIndex));
+                            totalTime = seconds;
+                        }
+                        else{
+                            minutes = Integer.parseInt(line.substring(0, minutesIndex));
+                            seconds = Integer.parseInt(line.substring(minutesIndex + 1, secondsIndex));
+                            totalTime = (minutes * 60) + seconds;
+                        }
 
                         Button yourButton = new Button(this);
-                        yourButton.setText("Timer");
-                        yourButton.setOnClickListener(new View.OnClickListener() {
+                        if (minutesIndex !=-1){
+                            yourButton.setText(minutes + " minutes & " + seconds +" seconds");
+                        }
+                        else {
+                            yourButton.setText(seconds +" seconds");
+                        }
+
+                    int finalTotalTime = totalTime;
+                    yourButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
-                                        .putExtra(AlarmClock.EXTRA_LENGTH, totalTime)
+                                        .putExtra(AlarmClock.EXTRA_LENGTH, finalTotalTime)
                                         .putExtra(AlarmClock.EXTRA_MESSAGE, "Timer for Kook <3")
                                         .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
                                 startActivity(intent);
@@ -167,10 +178,10 @@ public class MainActivity2 extends AppCompatActivity {
             ingrid += ingredients.get(i)+"\n";
         }
 
-        TextView modyfiko = (TextView) findViewById(R.id.ingredients);
+        TextView modyfiko = (TextView) findViewById(R.id.editIngredients);
         modyfiko.setText(ingrid);
 
-        modyfiko = (TextView) findViewById(R.id.recipie);
+        modyfiko = (TextView) findViewById(R.id.editRecipie);
         modyfiko.setText(text);
 
     }
