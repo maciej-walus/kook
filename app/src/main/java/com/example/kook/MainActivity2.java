@@ -1,10 +1,17 @@
 package com.example.kook;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -54,6 +61,8 @@ public class MainActivity2 extends AppCompatActivity {
         List<String> ingredients = new ArrayList<>();
         String text = "";
         double portion_number = 0;
+        int TimerMinutes = 0;
+        int TimerSeconds = 0;
 
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -115,6 +124,35 @@ public class MainActivity2 extends AppCompatActivity {
                 else if (isTimer){
                     // zmienna line ma dane
                     // tutej te minutniki daj 15m36s ma ustawic minutnik na 15 minut 36sekund
+                    LinearLayout LinearLayoutForTimers = findViewById(R.id.LinearLayoutForTimers);
+                    LayoutInflater inflater = LayoutInflater.from(this);
+                    View inflatedLayout = inflater.inflate(R.layout.timer_button, LinearLayoutForTimers, false);
+                    LinearLayoutForTimers.addView(inflatedLayout);
+
+                    int minutesIndex = line.indexOf('m');
+                    int secondsIndex = line.indexOf('s');
+                    int minutes = Integer.parseInt(line.substring(0, minutesIndex));
+                    int seconds = Integer.parseInt(line.substring(minutesIndex + 1, secondsIndex));
+                    int totalTime = (minutes * 60) + seconds;
+
+                    Button yourButton = inflatedLayout.findViewById(R.id.timer);
+                    yourButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
+                                    .putExtra(AlarmClock.EXTRA_LENGTH, totalTime)
+                                    .putExtra(AlarmClock.EXTRA_MESSAGE, "Timer for Kook <3")
+                                    .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+                            startActivity(intent);
+                            /*if (intent.resolveActivity(getPackageManager()) != null) {
+
+                            }
+                            else {
+                                Log.d("ImplicitIntents", "Unhandlable intent");
+                            }*/
+                        }
+                    });
+
                 }
 
 
