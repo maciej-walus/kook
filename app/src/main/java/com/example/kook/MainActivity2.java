@@ -73,7 +73,7 @@ public class MainActivity2 extends AppCompatActivity {
             boolean isText = false;
             boolean isPortion = false;
             boolean isTimer = false;
-
+            LinearLayout LinearLayoutForTimers = findViewById(R.id.LinearLayoutForTimers);
             while ( (line = br.readLine()) != null) {
 
                 if (line.contains("<ingredients>")) {
@@ -122,36 +122,32 @@ public class MainActivity2 extends AppCompatActivity {
                     portion_number = Double.parseDouble(line);
                 }
                 else if (isTimer){
-                    // zmienna line ma dane
-                    // tutej te minutniki daj 15m36s ma ustawic minutnik na 15 minut 36sekund
-                    LinearLayout LinearLayoutForTimers = findViewById(R.id.LinearLayoutForTimers);
-                    LayoutInflater inflater = LayoutInflater.from(this);
-                    View inflatedLayout = inflater.inflate(R.layout.timer_button, LinearLayoutForTimers, false);
-                    LinearLayoutForTimers.addView(inflatedLayout);
 
-                    int minutesIndex = line.indexOf('m');
-                    int secondsIndex = line.indexOf('s');
-                    int minutes = Integer.parseInt(line.substring(0, minutesIndex));
-                    int seconds = Integer.parseInt(line.substring(minutesIndex + 1, secondsIndex));
-                    int totalTime = (minutes * 60) + seconds;
 
-                    Button yourButton = inflatedLayout.findViewById(R.id.timer);
-                    yourButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
-                                    .putExtra(AlarmClock.EXTRA_LENGTH, totalTime)
-                                    .putExtra(AlarmClock.EXTRA_MESSAGE, "Timer for Kook <3")
-                                    .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-                            startActivity(intent);
-                            /*if (intent.resolveActivity(getPackageManager()) != null) {
 
+                        int minutesIndex = line.indexOf('m');
+                        int secondsIndex = line.indexOf('s');
+                        int minutes = Integer.parseInt(line.substring(0, minutesIndex));
+                        int seconds = Integer.parseInt(line.substring(minutesIndex + 1, secondsIndex));
+                        int totalTime = (minutes * 60) + seconds;
+
+                        Button yourButton = new Button(this);
+                        yourButton.setText("Timer");
+                        yourButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
+                                        .putExtra(AlarmClock.EXTRA_LENGTH, totalTime)
+                                        .putExtra(AlarmClock.EXTRA_MESSAGE, "Timer for Kook <3")
+                                        .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+                                startActivity(intent);
                             }
-                            else {
-                                Log.d("ImplicitIntents", "Unhandlable intent");
-                            }*/
-                        }
-                    });
+                        });
+
+                        LinearLayoutForTimers.addView(yourButton);
+
+
+
 
                 }
 
