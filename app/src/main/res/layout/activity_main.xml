@@ -18,13 +18,13 @@
             android:id="@+id/imageView"
             android:layout_width="161dp"
             android:layout_height="165dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"
             app:srcCompat="@drawable/kook" />
 
         <ScrollView
             android:layout_width="411dp"
-            android:layout_height="460dp"
-            android:layout_marginTop="40dp">
+            android:layout_height="496dp"
+            android:layout_marginBottom="8dp">
 
             <LinearLayout
                 android:id="@+id/categoryLinearLayout"
@@ -35,6 +35,16 @@
 
             </LinearLayout>
         </ScrollView>
+
+        <Button
+            android:id="@+id/AddRecipeButton"
+            android:layout_width="411dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="48dp"
+            android:layout_weight="1"
+            android:text="Add Recipe" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
