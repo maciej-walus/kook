@@ -63,6 +63,7 @@ public class MainActivity2 extends AppCompatActivity {
             boolean isIngredients = false;
             boolean isText = false;
             boolean isPortion = false;
+            boolean isTimer = false;
 
             while ( (line = br.readLine()) != null) {
 
@@ -72,6 +73,15 @@ public class MainActivity2 extends AppCompatActivity {
                 }
                 if (line.contains("</ingredients>")) {
                     isIngredients = false;
+                    continue;
+                }
+
+                if (line.contains("<timers>")) {
+                    isTimer = true;
+                    continue;
+                }
+                if (line.contains("</timers>")) {
+                    isTimer = false;
                     continue;
                 }
 
@@ -101,6 +111,10 @@ public class MainActivity2 extends AppCompatActivity {
                 }
                 else if (isPortion){
                     portion_number = Double.parseDouble(line);
+                }
+                else if (isTimer){
+                    // zmienna line ma dane
+                    // tutej te minutniki daj 15m36s ma ustawic minutnik na 15 minut 36sekund
                 }
 
 
